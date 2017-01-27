@@ -87,30 +87,28 @@ isaniBotUI.prototype.addEventRegButtons = function() {
             const $buttonReg = $('<button type="button" class="button bot-event-reg-button"></button>');
             const $buttonUnreg = $('<button type="button" class="button bot-event-unreg-button"></button>');
 
-            const _handler = function(requestAction, button1, button2) {
-              return function() {
-                button1.attr("disabled", "disabled");
-                self.request({
-                  uri: self.endpoint,
-                  method: 'PUT',
-                  json: {
-                    "action": requestAction,
-                    "event_id": eventID,
-                    "user": {
-                      "nickname": self.username,
-                      "usr_id": self.id
-                    }
+            const _handler = (requestAction, button1, button2) => () => {
+              button1.attr("disabled", "disabled");
+              self.request({
+                uri: self.endpoint,
+                method: 'PUT',
+                json: {
+                  "action": requestAction,
+                  "event_id": eventID,
+                  "user": {
+                    "nickname": self.username,
+                    "usr_id": self.id
                   }
-                }, (error, response, body) => {
-                  button1.removeAttr("disabled");
-                  if (!error && response.statusCode === 200) {
-                    if (body.status) {
-                      button2.show();
-                      button1.hide();
-                    }
+                }
+              }, (error, response, body) => {
+                button1.removeAttr("disabled");
+                if (!error && response.statusCode === 200) {
+                  if (body.status) {
+                    button2.show();
+                    button1.hide();
                   }
-                });
-              }
+                }
+              });
             };
 
             $buttonReg
