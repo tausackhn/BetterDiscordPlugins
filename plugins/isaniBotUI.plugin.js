@@ -189,7 +189,6 @@ isaniBotUI.prototype.addEventRegPanel = function() {
           $button.click(() => {
             const $panel = $('.bot-event-reg-panel');
 
-            // TODO Fix bug with closing (huy poimi pochemu)
             if ($('.bot-event-reg-panel').css('display') === 'none') {
               $panel.show();
             }
@@ -197,6 +196,7 @@ isaniBotUI.prototype.addEventRegPanel = function() {
               $panel.hide();
             }
           });
+
           $('.header-toolbar').prepend($button);
 
           const $panel = $('<div class="bot-event-reg-panel popout popout-bottom-right no-arrow no-shadow">' +
@@ -261,8 +261,9 @@ isaniBotUI.prototype.addEventRegPanel = function() {
 
           $(document).mouseup((event) => {
             const $panel = $('.bot-event-reg-panel');
+            const $icon = $('.bot-event-reg-icon span');
 
-            if (!$panel.is(event.target) && !$panel.has(event.target).length) {
+            if (!$panel.is(event.target) && !$panel.has(event.target).length && !$icon.is(event.target)) {
               $panel.hide();
             }
           });
