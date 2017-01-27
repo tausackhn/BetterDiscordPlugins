@@ -88,7 +88,7 @@ isaniBotUI.prototype.addEventRegButtons = function() {
             const $buttonUnreg = $('<button type="button" class="button bot-event-unreg-button"></button>');
 
             const _handler = (requestAction, button1, button2) => () => {
-              button1.attr("disabled", "disabled");
+              button1.attr('disabled', 'disabled');
               self.request({
                 uri: self.endpoint,
                 method: 'PUT',
@@ -101,7 +101,7 @@ isaniBotUI.prototype.addEventRegButtons = function() {
                   }
                 }
               }, (error, response, body) => {
-                button1.removeAttr("disabled");
+                button1.removeAttr('disabled');
                 if (!error && response.statusCode === 200) {
                   if (body.status) {
                     button2.show();
