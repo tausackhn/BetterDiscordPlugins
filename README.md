@@ -7,4 +7,3 @@
 4. Перезапускаем Discord (Win+R).
 5. В настройках Discord переходим в BetterDiscord, далее вкладка Plugins, и активируем необходимые плагины.
  ![ss](https://cloud.githubusercontent.com/assets/7711740/22371162/2939aeec-e49e-11e6-8b8d-a0aef2fbe9d5.png)
- 6. dfg
