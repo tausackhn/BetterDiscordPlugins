@@ -70,7 +70,8 @@ isaniBotUI.prototype.addEventRegButtons = function() {
       '.bot-event-reg-button { background-color: #f0ad4e; border-color: #eea236; }' +
       '.bot-event-reg-button:hover { background-color: #ec971f; border-color: #d58512; text-decoration: none; }' +
       '.bot-event-unreg-button { background-color: #5cb85c; border-color: #4cae4c; }' +
-      '.bot-event-unreg-button:hover { background-color: #d9534f; border-color: #d43f3a; }');
+      '.bot-event-unreg-button:hover { background-color: #d9534f; border-color: #d43f3a; }' +
+      '.avoid-clicks { pointer-events: none; }');
 
   $(document).on('click.bre', event => {
     const $target = $(event.target);
@@ -86,29 +87,35 @@ isaniBotUI.prototype.addEventRegButtons = function() {
             const $buttonReg = $('<button type="button" class="button bot-event-reg-button"></button>');
             const $buttonUnreg = $('<button type="button" class="button bot-event-unreg-button"></button>');
 
+            const _handler = function(requestAction, button1, button2) {
+              return function() {
+                button1.attr("disabled", "disabled");
+                self.request({
+                  uri: self.endpoint,
+                  method: 'PUT',
+                  json: {
+                    "action": requestAction,
+                    "event_id": eventID,
+                    "user": {
+                      "nickname": self.username,
+                      "usr_id": self.id
+                    }
+                  }
+                }, (error, response, body) => {
+                  button1.removeAttr("disabled");
+                  if (!error && response.statusCode === 200) {
+                    if (body.status) {
+                      button2.show();
+                      button1.hide();
+                    }
+                  }
+                });
+              }
+            };
+
             $buttonReg
                 .text('Подписаться')
-                .click(() => {
-                  self.request({
-                    uri: self.endpoint,
-                    method: 'PUT',
-                    json: {
-                      "action": "join",
-                      "event_id": eventID,
-                      "user": {
-                        "nickname": self.username,
-                        "usr_id": self.id
-                      }
-                    }
-                  }, (error, response, body) => {
-                    if (!error && response.statusCode === 200) {
-                      if (body.status) {
-                        $buttonUnreg.show();
-                        $buttonReg.hide();
-                      }
-                    }
-                  });
-                });
+                .click(_handler('join', $buttonReg, $buttonUnreg));
 
             $buttonUnreg
                 .text('Подписан')
@@ -118,27 +125,7 @@ isaniBotUI.prototype.addEventRegButtons = function() {
                 .mouseleave(() => {
                   $buttonUnreg.text('Подписан');
                 })
-                .click(() => {
-                  self.request({
-                    uri: self.endpoint,
-                    method: 'PUT',
-                    json: {
-                      "action": "part",
-                      "event_id": eventID,
-                      "user": {
-                        "nickname": self.username,
-                        "usr_id": self.id
-                      }
-                    }
-                  }, (error, response, body) => {
-                    if (!error && response.statusCode === 200) {
-                      if (body.status) {
-                        $buttonReg.show();
-                        $buttonUnreg.hide();
-                      }
-                    }
-                  });
-                });
+                .click(_handler('part', $buttonUnreg, $buttonReg));
 
             $(value).find('.comment .accessory .embed-author').append($buttonReg).append($buttonUnreg);
 
