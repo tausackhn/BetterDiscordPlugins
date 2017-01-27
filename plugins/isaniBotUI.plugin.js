@@ -14,7 +14,7 @@ isaniBotUI.prototype.onMessage = () => {};
 
 isaniBotUI.prototype.onSwitch = () => {};
 
-isaniBotUI.prototype.getSettingsPanel = () => "";
+isaniBotUI.prototype.getSettingsPanel = () => '';
 
 isaniBotUI.prototype.load = function() {
   this.theme = $('[class^="theme-"]').attr('class');
@@ -63,78 +63,14 @@ isaniBotUI.prototype.addEventRegButtons = function() {
 
   self.cleanRegButtons();
   BdApi.injectCSS('eventRegButtonsCSS',
-      '.bot-event-reg-button { position: absolute; right: 5px; top: 5px; z-index: 9999; color: #fff; border: 1px solid transparent;' +
-                              'display: inline-block; padding: 6px 12px;font-size: 14px; font-weight: 400; line-height: 1.42857;' +
-                              'text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; ' +
-                              'cursor: pointer; -webkit-user-select: none; border-radius: 4px; background-image: none;' +
-                              'background-color: #f0ad4e; border-color: #eea236; }' +
+      '.button { position: absolute; right: 5px; top: 5px; z-index: 9999; color: #fff; border: 1px solid transparent;' +
+                'display: inline-block; padding: 6px 12px;font-size: 14px; font-weight: 400; line-height: 1.42857;' +
+                'width: 100px; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; ' +
+                'cursor: pointer; -webkit-user-select: none; border-radius: 4px; background-image: none; }' +
+      '.bot-event-reg-button { background-color: #f0ad4e; border-color: #eea236; }' +
       '.bot-event-reg-button:hover { background-color: #ec971f; border-color: #d58512; text-decoration: none; }' +
-      '.success { background-color: #5cb85c; border-color: #4cae4c; }' +
-      '.unregister { background-color: #d9534f; border-color: #d43f3a; }' +
-      '.unregister:hover { background-color: #d9534f; border-color: #d43f3a; }');
-
-  const _setButtonRegistered = function($button, eventID) {
-    $button
-        .off('click')
-        .text('Зарегистрирован')
-        .addClass('success')
-        .mouseover(() => {
-          $button
-              .text('Отписаться')
-              .addClass('unregister');
-        })
-        .mouseleave(() => {
-          $button
-              .text('Зарегистрирован')
-              .removeClass('unregister');
-        })
-        .click(() => {
-          self.request({
-            uri: self.endpoint,
-            method: 'PUT',
-            json: {
-              "action": "part",
-              "event_id": eventID,
-              "user": {
-                "nickname": self.username,
-                "usr_id": self.id
-              }
-            }
-          }, (error, response, body) => {
-            if(!error && response.statusCode === 200) {
-              if (body.status) {
-                $button
-                    .off('click')
-                    .off('mouseover')
-                    .off('mouseleave')
-                    .text('Зарегистрироваться')
-                    .removeClass('success')
-                    .removeClass('unregister')
-                    .click(() => {
-                      self.request({
-                        uri: self.endpoint,
-                        method: 'PUT',
-                        json: {
-                          "action": "join",
-                          "event_id": eventID,
-                          "user": {
-                            "nickname": self.username,
-                            "usr_id": self.id
-                          }
-                        }
-                      }, (error, response, body) => {
-                        if (!error && response.statusCode === 200) {
-                          if (body.status) {
-                            _setButtonRegistered($button, eventID);
-                          }
-                        }
-                      })
-                    });
-              }
-            }
-          });
-        });
-  };
+      '.bot-event-unreg-button { background-color: #5cb85c; border-color: #4cae4c; }' +
+      '.bot-event-unreg-button:hover { background-color: #d9534f; border-color: #d43f3a; }');
 
   $(document).on('click.bre', event => {
     const $target = $(event.target);
@@ -147,37 +83,74 @@ isaniBotUI.prototype.addEventRegButtons = function() {
             const $embedField = $(value).find('.comment .accessory .embed-field');
             const registeredUsers = $embedField.last().find('.embed-field-value').text().split(', ');
             const eventID = $(value).find('.embed-title').text().split(' ').pop();
-            const $button = $('<button type="button" class="bot-event-reg-button"></button>');
+            const $buttonReg = $('<button type="button" class="button bot-event-reg-button"></button>');
+            const $buttonUnreg = $('<button type="button" class="button bot-event-unreg-button"></button>');
+
+            $buttonReg
+                .text('Подписаться')
+                .click(() => {
+                  self.request({
+                    uri: self.endpoint,
+                    method: 'PUT',
+                    json: {
+                      "action": "join",
+                      "event_id": eventID,
+                      "user": {
+                        "nickname": self.username,
+                        "usr_id": self.id
+                      }
+                    }
+                  }, (error, response, body) => {
+                    if (!error && response.statusCode === 200) {
+                      if (body.status) {
+                        $buttonUnreg.show();
+                        $buttonReg.hide();
+                      }
+                    }
+                  });
+                });
+
+            $buttonUnreg
+                .text('Подписан')
+                .mouseover(() => {
+                  $buttonUnreg.text('Отписаться');
+                })
+                .mouseleave(() => {
+                  $buttonUnreg.text('Подписан');
+                })
+                .click(() => {
+                  self.request({
+                    uri: self.endpoint,
+                    method: 'PUT',
+                    json: {
+                      "action": "part",
+                      "event_id": eventID,
+                      "user": {
+                        "nickname": self.username,
+                        "usr_id": self.id
+                      }
+                    }
+                  }, (error, response, body) => {
+                    if (!error && response.statusCode === 200) {
+                      if (body.status) {
+                        $buttonReg.show();
+                        $buttonUnreg.hide();
+                      }
+                    }
+                  });
+                });
+
+            $(value).find('.comment .accessory .embed-author').append($buttonReg).append($buttonUnreg);
 
             if ($.inArray(self.username, registeredUsers) === -1) {
-              $button
-                  .text('Зарегистрироваться')
-                  .click(() => {
-                    self.request({
-                      uri: self.endpoint,
-                      method: 'PUT',
-                      json: {
-                        "action": "join",
-                        "event_id": eventID,
-                        "user": {
-                          "nickname": self.username,
-                          "usr_id": self.id
-                        }
-                      }
-                    }, (error, response, body) => {
-                      if(!error && response.statusCode === 200) {
-                        if (body.status) {
-                          _setButtonRegistered($button, eventID);
-                        }
-                      }
-                    });
-              });
+              $buttonReg.show();
+              $buttonUnreg.hide();
             }
             else {
-              _setButtonRegistered($button, eventID);
+              $buttonUnreg.show();
+              $buttonReg.hide();
             }
 
-            $(value).find('.comment .accessory .embed-author').append($button);
             loadingTime = 50;
           });
         }
