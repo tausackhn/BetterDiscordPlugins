@@ -19,7 +19,7 @@ isaniBotUI.prototype.getSettingsPanel = () => '';
 isaniBotUI.prototype.load = function() {
   this.theme = $('[class^="theme-"]').attr('class');
   this.botName = 'isani-bot';
-  this.username = $('.username').text();
+  this.username = $('.account-details .username').text();
   this.id = $('.account .avatar-small').css('background-image').split('/')[4];
   this.endpoint = 'http://iiss.me:8080/discord/events';
   this.request = require('request');
