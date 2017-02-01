@@ -93,6 +93,7 @@ isaniBotUI.prototype.addEventRegButtons = function() {
                 method: 'PUT',
                 json: {
                   "action": requestAction,
+                  "channel_id": $('.channel.channel-text.selected').find('a').attr('href').split('/')[3],
                   "event_id": eventID,
                   "user": {
                     "nickname": self.username,
@@ -285,7 +286,7 @@ isaniBotUI.prototype.addEventRegPanel = function() {
       uri: self.endpoint,
       method: 'POST',
       json: {
-        "guild_id": $('.guild.selected').find('a').css('background-image').split('/')[4],
+        "channel_id": $('.channel.channel-text.selected').find('a').attr('href').split('/')[3],
         "event_name": $(".textarea-title").val(),
         "at": $(".textarea-time").val(),
         "part": parseInt($(".textarea-amount").val()),
