@@ -23,6 +23,7 @@ isaniBotUI.prototype.load = function() {
   this.id = $('.account .avatar-small').css('background-image').split('/')[4];
   this.endpoint = 'http://iiss.me:8080/discord/events';
   this.request = require('request');
+  this.loadingTime = 500;
 };
 
 isaniBotUI.prototype.unload = () => {};
@@ -58,16 +59,15 @@ isaniBotUI.prototype.cleanRegPanel = function() {
 };
 
 isaniBotUI.prototype.addEventRegButtons = function() {
-  let loadingTime = 500;
   const self = this;
 
   self.cleanRegButtons();
   BdApi.injectCSS('eventRegButtonsCSS',
-      '.button { position: absolute; right: 5px; top: 5px; z-index: 9999; color: #fff; border: 1px solid transparent;' +
-                'display: inline-block; padding: 6px 12px;font-size: 14px; font-weight: 400; line-height: 1.42857;' +
+      '.button { position: absolute; right: 2px; top: 2px; z-index: 9999; color: #fff; border: 1px solid transparent;' +
+                'display: inline-block; padding: 5px 12px;font-size: 14px; font-weight: 400; line-height: 1.42857;' +
                 'width: 100px; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; ' +
                 'cursor: pointer; -webkit-user-select: none; border-radius: 4px; background-image: none; }' +
-      '.bot-event-reg-button { background-color: #f0ad4e; border-color: #eea236; }' +
+      '.bot-event-reg-button { background-color: #f0ad4e; border-color: #eea236; width: 110px;}' +
       '.bot-event-reg-button:hover { background-color: #ec971f; border-color: #d58512; text-decoration: none; }' +
       '.bot-event-unreg-button { background-color: #5cb85c; border-color: #4cae4c; }' +
       '.bot-event-unreg-button:hover { background-color: #d9534f; border-color: #d43f3a; }');
@@ -136,10 +136,10 @@ isaniBotUI.prototype.addEventRegButtons = function() {
               $buttonReg.hide();
             }
 
-            loadingTime = 50;
+            self.loadingTime = 50;
           });
         }
-      }, loadingTime);
+      }, self.loadingTime);
     }
   });
 };
@@ -232,6 +232,7 @@ isaniBotUI.prototype.addEventRegPanel = function() {
   $('#app-mount').children().children().eq(4).append($panel);
 
   const _setIconState = () => {
+    self.loadingTime = 500;
     if (self.checkBotPresence()) {
       $button.removeClass('disabled-image').removeAttr('disabled');
     }
