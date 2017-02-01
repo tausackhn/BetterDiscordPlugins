@@ -262,7 +262,7 @@ isaniBotUI.prototype.addEventRegPanel = function() {
 
   _createButton();
 
-  $('.scroller.guilds').find('.guild').click(() => {
+  $('.scroller.guilds').find('.guild').slice(1, -1).click(() => {
     setTimeout(() => {
       if (!$('.bot-event-reg-icon').length) {
         _createButton();
