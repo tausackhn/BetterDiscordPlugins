@@ -49,13 +49,14 @@ isaniBotUI.prototype.checkBotPresence = function() {
 isaniBotUI.prototype.cleanRegButtons = function() {
   $('.bot-event-reg-button').remove();
   BdApi.clearCSS("eventRegButtonsCSS");
-  $(document).off("click.bre");
+  $(document).off("click.erb");
 };
 
 isaniBotUI.prototype.cleanRegPanel = function() {
   $('.bot-event-reg-icon, .bot-event-reg-panel').remove();
   $('.bot-event-reg-panel').remove();
   BdApi.clearCSS("eventRegPanelCSS");
+  $(document).off("click.erp");
 };
 
 isaniBotUI.prototype.addEventRegButtons = function() {
@@ -72,7 +73,7 @@ isaniBotUI.prototype.addEventRegButtons = function() {
       '.bot-event-unreg-button { background-color: #5cb85c; border-color: #4cae4c; }' +
       '.bot-event-unreg-button:hover { background-color: #d9534f; border-color: #d43f3a; }');
 
-  $(document).on('click.bre', event => {
+  $(document).on('click.erb', event => {
     const $target = $(event.target);
     if ($target.eq(0).css('background-image') === 'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNiIgaGVpZ2h0PSIyNiI+CiAgPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgIDxwYXRoIGQ9Ik0xIDFoMjR2MjRIMSIvPgogICAgPHBhdGggZmlsbD0iI0ZGRiIgZD0iTTE1IDE1VjZoLTR2OWgtLjUwODk5NDgyQzEwLjIyNzg4MDQ4IDE1IDEwIDE1LjIyMzg1NzYgMTAgMTUuNWMwIC4yNjgwNjY0LjIxOTgzMDUuNS40OTEwMDUxOC41aDUuMDE3OTg5NjRDMTUuNzcyMTE5NTIgMTYgMTYgMTUuNzc2MTQyNCAxNiAxNS41YzAtLjI2ODA2NjQtLjIxOTgzMDUtLjUtLjQ5MTAwNTE4LS41SDE1em0yLTloMVY0SDh2MmgxdjhsLTIgMnYyaDUuMnY0aDEuNnYtNEgxOXYtMmwtMi0yVjZ6Ii8+CiAgPC9nPgo8L3N2Zz4=")') {
       setTimeout(() => {
@@ -275,7 +276,7 @@ isaniBotUI.prototype.addEventRegPanel = function() {
     }, 100);
   });
 
-  $(document).mouseup((event) => {
+  $(document).on('click.erp', event => {
     const $panel = $('.bot-event-reg-panel');
     const $icon = $('.bot-event-reg-icon span');
 
