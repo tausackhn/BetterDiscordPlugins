@@ -240,7 +240,7 @@ isaniBotUI.prototype.addEventRegPanel = function() {
     }
   };
 
-  const _createButton = function() {
+  const _createButton = () => {
     $button.click(() => {
       const $panel = $('.bot-event-reg-panel');
 
@@ -265,10 +265,14 @@ isaniBotUI.prototype.addEventRegPanel = function() {
       if (!$('.bot-event-reg-icon').length) {
         _createButton();
       }
+      $('.scroller.guild-channels').find('.channel-text').click(() => {
+        setTimeout(() => {
+          _setIconState();
+        }, 100);
+      });
       _setIconState();
     }, 100);
   });
-
 
   $(document).mouseup((event) => {
     const $panel = $('.bot-event-reg-panel');
