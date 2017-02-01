@@ -143,6 +143,10 @@ isaniBotUI.prototype.addEventRegButtons = function() {
   });
 };
 
+isaniBotUI.prototype.createRegButton = function() {
+
+};
+
 isaniBotUI.prototype.addEventRegPanel = function() {
   const self = this;
 
@@ -164,37 +168,6 @@ isaniBotUI.prototype.addEventRegPanel = function() {
       '.disabled-image { -webkit-filter: grayscale(1); }');
 
   const $button = $('<button type="button" class="bot-event-reg-icon"><span></span></button>');
-
-  const _setIconState = () => {
-    if (self.checkBotPresence()) {
-      $button.removeClass('disabled-image').removeAttr('disabled');
-    }
-    else {
-      $button.addClass('disabled-image').attr('disabled', 'disabled');
-    }
-  };
-
-  $button.click(() => {
-    const $panel = $('.bot-event-reg-panel');
-
-    if ($('.bot-event-reg-panel').css('display') === 'none') {
-      $panel.show();
-    }
-    else {
-      $panel.hide();
-      $(".server-response").text('');
-    }
-  });
-
-  _setIconState();
-
-  $('.header-toolbar').prepend($button);
-
-  $('.scroller.guilds').find('.guild').click(() => {
-    setTimeout(() => {
-      _setIconState();
-    }, 100);
-  });
 
   const $panel = $('<div class="bot-event-reg-panel popout popout-bottom-right no-arrow no-shadow">' +
                     '<div class="messages-popout-wrap themed-popout bot-event-reg-panel-content">' +
@@ -256,6 +229,45 @@ isaniBotUI.prototype.addEventRegPanel = function() {
   });
 
   $('#app-mount').children().children().eq(4).append($panel);
+
+  const _setIconState = () => {
+    if (self.checkBotPresence()) {
+      $button.removeClass('disabled-image').removeAttr('disabled');
+    }
+    else {
+      $button.addClass('disabled-image').attr('disabled', 'disabled');
+    }
+  };
+
+  const _createButton = function() {
+    $button.click(() => {
+      const $panel = $('.bot-event-reg-panel');
+
+      if ($('.bot-event-reg-panel').css('display') === 'none') {
+        $panel.show();
+      }
+      else {
+        $panel.hide();
+        $(".server-response").text('');
+      }
+    });
+
+    _setIconState();
+
+    $('.header-toolbar').prepend($button);
+  }
+
+  _createButton();
+
+  $('.scroller.guilds').find('.guild').click(() => {
+    setTimeout(() => {
+      if (!$('.bot-event-reg-icon').length) {
+        _createButton();
+      }
+      _setIconState();
+    }, 100);
+  });
+
 
   $(document).mouseup((event) => {
     const $panel = $('.bot-event-reg-panel');
