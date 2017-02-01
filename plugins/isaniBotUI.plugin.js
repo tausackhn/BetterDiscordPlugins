@@ -177,47 +177,47 @@ isaniBotUI.prototype.addEventRegPanel = function() {
                       '</div>' +
                       '<div class="scroller-wrap dark">' +
                         '<div class="scroller messages-popout">' +
-                          '<div class="' + self.theme + '">Имя события (максимум 20 символов):</div>' +
+                          '<div class="' + self.theme + '">Имя события:</div>' +
                           '<form>' +
                             '<div class="channel-textarea margin10">' +
                               '<div class="channel-textarea-inner">' +
-                                '<textarea class="textarea-title" rows="1" placeholder="Имя события..." style="height: auto; overflow: hidden;"></textarea>' +
+                                '<textarea class="textarea-title" rows="1" style="height: auto; overflow: hidden;"></textarea>' +
                               '</div>' +
                             '</div>' +
                           '</form>' +
-                          '<div class="' + self.theme + '">Время события (максимум 20 символов):</div>' +
+                          '<div class="' + self.theme + '">Время события:</div>' +
                           '<form>' +
                             '<div class="channel-textarea margin10">' +
                               '<div class="channel-textarea-inner">' +
-                                '<textarea class="textarea-time" rows="1" placeholder="Время события..." style="height: auto; overflow: hidden;"></textarea>' +
+                                '<textarea class="textarea-time" rows="1" style="height: auto; overflow: hidden;"></textarea>' +
                               '</div>' +
                             '</div>' +
                           '</form>' +
-                          '<div class="' + self.theme + '">Кол-во участников (максимум 20):</div>' +
+                          '<div class="' + self.theme + '">Количество участников:</div>' +
                           '<form>' +
                             '<div class="channel-textarea margin10">' +
                               '<div class="channel-textarea-inner">' +
-                                '<textarea class="textarea-amount" rows="1" placeholder="Колв-во участников..." style="height: auto; overflow: hidden;"></textarea>' +
+                                '<textarea class="textarea-amount" rows="1" style="height: auto; overflow: hidden;"></textarea>' +
                               '</div>' +
                             '</div>' +
                           '</form>' +
-                          '<div class="' + self.theme + '">Описание события (максимум 200 символов):</div>' +
+                          '<div class="' + self.theme + '">Описание события:</div>' +
                           '<form>' +
                             '<div class="channel-textarea margin10">' +
                               '<div class="channel-textarea-inner">' +
-                                '<textarea class="textarea-desc" rows="1" placeholder="Описание события..." style="height: auto; overflow: hidden;"></textarea>' +
+                                '<textarea class="textarea-desc" rows="1" style="height: auto; overflow: hidden;"></textarea>' +
                               '</div>' +
                             '</div>' +
                           '</form>' +
-                          '<div class="' + self.theme + '">URL картинки (jpeg/png):</div>' +
+                          '<div class="' + self.theme + '">URL картинки:</div>' +
                           '<form>' +
                             '<div class="channel-textarea margin10">' +
                               '<div class="channel-textarea-inner">' +
-                                '<textarea class="textarea-image" rows="1" placeholder="URL картинки..." style="height: auto; overflow: hidden;"></textarea>' +
+                                '<textarea class="textarea-image" rows="1" style="height: auto; overflow: hidden;"></textarea>' +
                               '</div>' +
                             '</div>' +
                           '</form>' +
-                          '<span class="server-response" style="color: red"></span>' +
+                          '<div class="server-response" style="float: left; width: 60%; color: cyan"></div>' +
                           '<button type="button" class="bot-create-event-button">Создать событие</button>' +
                         '</div>' +
                       '</div>' +
@@ -286,32 +286,73 @@ isaniBotUI.prototype.addEventRegPanel = function() {
   });
 
   $('.bot-create-event-button').click(() => {
-    // TODO add checks
-    self.request({
-      uri: self.endpoint,
-      method: 'POST',
-      json: {
-        "channel_id": $('.channel.channel-text.selected').find('a').attr('href').split('/')[3],
-        "event_name": $(".textarea-title").val(),
-        "at": $(".textarea-time").val(),
-        "part": parseInt($(".textarea-amount").val()),
-        "desc": $(".textarea-desc").val(),
-        "img_url": $(".textarea-image").val(),
-        "user": {
-          "nickname": self.username,
-          "usr_id": self.id
+    const eventName = $(".textarea-title").val();
+    const at = $(".textarea-time").val();
+    const part = parseInt($(".textarea-amount").val());
+    const desc =$(".textarea-desc").val();
+    const imgURL = $(".textarea-image").val();
+
+    try {
+      if (eventName.length > 30) {
+        throw "Имя события больше 30 символов!";
+      }
+      if (eventName.length < 2) {
+        throw "Имя события меньше 2 символов!";
+      }
+      if (at && at.length > 30) {
+        throw "Время события больше 30 символов!"
+      }
+      if (at && at.length < 2) {
+        throw "Время события меньше 2 символов!"
+      }
+      if (isNaN(part)) {
+        throw "Количество участников должно быть числом!"
+      }
+      if (part > 20) {
+        throw "Количество участников больше 20!"
+      }
+      if (part < 1) {
+        throw "Количество участников меньше 1!"
+      }
+      if (desc && desc.length > 300) {
+        throw "Описание больше 300 символов!"
+      }
+      if (desc && desc.length < 2) {
+        throw "Описание меньше 2 символов!"
+      }
+      if (imgURL && !/^http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+\.(?:jpg|jpeg|png|gif)$/.test(imgURL)) {
+        throw "URL картинки не валидно!"
+      }
+
+      self.request({
+        uri: self.endpoint,
+        method: 'POST',
+        json: {
+          "channel_id": $('.channel.channel-text.selected').find('a').attr('href').split('/')[3],
+          "event_name": $(".textarea-title").val(),
+          "at": $(".textarea-time").val(),
+          "part": parseInt($(".textarea-amount").val()),
+          "desc": $(".textarea-desc").val(),
+          "img_url": $(".textarea-image").val(),
+          "user": {
+            "nickname": self.username,
+            "usr_id": self.id
+          }
         }
-      }
-    }, (error, response, body) => {
-      if(!error && response.statusCode === 200) {
-        if (body.status) {
-          $('.bot-event-reg-panel').find('textarea').val('');
-          $(".server-response").text(body.message);
+      }, (error, response, body) => {
+        if(!error && response.statusCode === 200) {
+          if (body.status) {
+            $('.bot-event-reg-panel').find('textarea').val('');
+            $(".server-response").text(body.message);
+          }
         }
-      }
-      else {
-        $(".server-response").text(body);
-      }
-    });
+        else {
+          $(".server-response").text(body);
+        }
+      });
+    }
+    catch (error) {
+      $(".server-response").text(error);
+    }
   });
 };
