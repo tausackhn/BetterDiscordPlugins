@@ -1,3 +1,4 @@
+/* Fix for embed messages with long content */
 .embed-wrapper,
 .embed.embed-rich,
 .embed-content-inner {
