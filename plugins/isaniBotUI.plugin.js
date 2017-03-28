@@ -18,7 +18,7 @@ isaniBotUI.prototype.getSettingsPanel = () => '';
 
 isaniBotUI.prototype.load = function() {
   this.theme = $('[class^="theme-"]').attr('class');
-  this.botName = 'isani-bot';
+  this.botID = '215243788162039809';
   this.username = $('.account-details .username').text();
   this.id = $('.account .avatar-small').css('background-image').split('/')[4];
   this.endpoint = 'http://iiss.me:8080/discord/events';
@@ -29,7 +29,6 @@ isaniBotUI.prototype.load = function() {
 isaniBotUI.prototype.unload = () => {};
 
 isaniBotUI.prototype.start = function() {
-  debugger;
   this.addEventRegButtons();
   this.addEventRegPanel();
 };
@@ -41,7 +40,7 @@ isaniBotUI.prototype.stop = function() {
 
 isaniBotUI.prototype.checkBotPresence = function() {
   const self = this;
-  const $bot = $('.member.member-status-online .member-username-inner').filter((index, user) => $(user).text() === self.botName);
+  const $bot = $('.member.member-status-online .avatar-small').filter((index, avatar) => $(avatar).css('background-image').split('/')[4] === self.botID);
 
   return !!$bot.length;
 };
@@ -78,7 +77,7 @@ isaniBotUI.prototype.addEventRegButtons = function() {
     if ($target.eq(0).css('background-image') === 'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNiIgaGVpZ2h0PSIyNiI+CiAgPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgIDxwYXRoIGQ9Ik0xIDFoMjR2MjRIMSIvPgogICAgPHBhdGggZmlsbD0iI0ZGRiIgZD0iTTE1IDE1VjZoLTR2OWgtLjUwODk5NDgyQzEwLjIyNzg4MDQ4IDE1IDEwIDE1LjIyMzg1NzYgMTAgMTUuNWMwIC4yNjgwNjY0LjIxOTgzMDUuNS40OTEwMDUxOC41aDUuMDE3OTg5NjRDMTUuNzcyMTE5NTIgMTYgMTYgMTUuNzc2MTQyNCAxNiAxNS41YzAtLjI2ODA2NjQtLjIxOTgzMDUtLjUtLjQ5MTAwNTE4LS41SDE1em0yLTloMVY0SDh2MmgxdjhsLTIgMnYyaDUuMnY0aDEuNnYtNEgxOXYtMmwtMi0yVjZ6Ii8+CiAgPC9nPgo8L3N2Zz4=")') {
       setTimeout(() => {
         if (self.checkBotPresence()) {
-          const $pinnedEvents = $('.popout .scroller .message-group').filter((index, event) => $(event).find('.body .user-name').text() === self.botName);
+          const $pinnedEvents = $('.popout .scroller .message-group').filter((index, event) => $(event).find('.avatar-large').css('background-image').split('/')[4] === self.botID);
 
           $.each($pinnedEvents, (index, value) => {
             const $embedField = $(value).find('.comment .accessory .embed-field');
