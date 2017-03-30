@@ -242,7 +242,8 @@ isaniBotUI.prototype.addEventRegPanel = function() {
   };
 
   const _createButton = () => {
-    $button.click(() => {
+    $button.click(event => {
+      event.stopPropagation()
       const $panel = $('.bot-event-reg-panel');
 
       if ($('.bot-event-reg-panel').css('display') === 'none') {
