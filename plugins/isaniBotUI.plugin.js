@@ -24,6 +24,10 @@ isaniBotUI.prototype.load = function() {
   this.endpoint = 'http://iiss.me:8080/discord/events';
   this.request = require('request');
   this.loadingTime = 500;
+  this.channelsEndpoint = 'http://iiss.me:8080/discord/channels';
+  this.channels = null;
+  this.updateInterval = 120 * 1000;
+  this.interval = null;
 };
 
 isaniBotUI.prototype.unload = () => {};
@@ -31,6 +35,7 @@ isaniBotUI.prototype.unload = () => {};
 isaniBotUI.prototype.start = function() {
   this.addEventRegButtons();
   this.addEventRegPanel();
+  this.addUpdateChannels();
 };
 
 isaniBotUI.prototype.stop = function() {
@@ -40,9 +45,20 @@ isaniBotUI.prototype.stop = function() {
 
 isaniBotUI.prototype.checkBotPresence = function() {
   const self = this;
-  const $bot = $('.member.member-status-online .avatar-small').filter((index, avatar) => $(avatar).css('background-image').split('/')[4] === self.botID);
-
-  return !!$bot.length;
+  exist = false;
+  $selected = $('.guild-channels .channel.selected');
+  if ($selected.length && self.channels) {
+    uri = $selected.children('a').attr('href');
+    match = uri.match(/\/channels\/(\d+)\/(\d+)/);
+    if (match[1] in self.channels) {
+      self.channels[match[1]].forEach(function(element) {
+        if (element['_id'] == match[2]) {
+          exist = true;
+        }
+      });
+    }
+  }
+  return exist;
 };
 
 isaniBotUI.prototype.cleanRegButtons = function() {
@@ -56,6 +72,21 @@ isaniBotUI.prototype.cleanRegPanel = function() {
   $('.bot-event-reg-panel').remove();
   BdApi.clearCSS("eventRegPanelCSS");
   $(document).off("click.erp");
+};
+
+isaniBotUI.prototype.addUpdateChannels = function() {
+  const self = this;
+  updateChannels = function () {
+    self.request(self.channelsEndpoint, function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+        self.channels = JSON.parse(body);
+      } else {
+        self.channels = null;
+      }
+    });
+  };
+  updateChannels();
+  self.interval = setInterval(updateChannels, self.updateInterval);
 };
 
 isaniBotUI.prototype.addEventRegButtons = function() {
@@ -239,7 +270,7 @@ isaniBotUI.prototype.addEventRegPanel = function() {
 
   const _createButton = () => {
     $button.click(event => {
-      event.stopPropagation()
+      
       const $panel = $('.bot-event-reg-panel');
 
       if ($('.bot-event-reg-panel').css('display') === 'none') {
@@ -253,6 +284,7 @@ isaniBotUI.prototype.addEventRegPanel = function() {
         $panel.hide();
         $(".server-response").text('');
       }
+      event.stopImmediatePropagation();
     });
 
     _setIconState();
