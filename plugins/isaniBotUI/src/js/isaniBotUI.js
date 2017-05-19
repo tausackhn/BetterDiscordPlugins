@@ -1,4 +1,5 @@
-const isaniBot = null;
+const IsaniBot = require('./isaniBot');
+let isaniBot = null;
 
 const getName = () => 'isani-bot UI';
 
@@ -6,13 +7,7 @@ const getDescription = () => 'Extends default discord UI with isani-bot function
 
 const getVersion = () => '0.9.0';
 
-const getAuthor = () => {
-  debugger;
-  const $style = $('[class^="theme-"]').attr('class');
-  const $username = $('.account-details .username').text();
-  const $id = $('.account .avatar-small').css('background-image').split('/')[4];
-  return 'Namingray';
-}
+const getAuthor = () => 'Namingray';
 
 const onMessage = () => {};
 
@@ -21,18 +16,21 @@ const onSwitch = () => {}
 const getSettingsPanel = () => '';
 
 const load = () => {
-
+  isaniBot = new IsaniBot('215243788162039809');
 };
 
 const unload = () => {};
 
 const start = () => {
-  this.addEventRegButtons();
-  this.addEventRegPanel();
-  this.addUpdateChannels();
+  isaniBot.addEventRegButtons();
+  isaniBot.addEventRegPanel();
+  isaniBot.addUpdateChannels();
 };
 
-const stop = () => {};
+const stop = () => {
+  isaniBot.cleanRegButtons();
+  isaniBot.cleanRegPanel();
+};
 
 module.exports = {
   getName,
