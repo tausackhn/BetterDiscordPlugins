@@ -1,17 +1,13 @@
-const getName = () => 'isani-bot UI';
-const getDescription = () => 'Extends default discord UI with isani-bot functionality';
-const getVersion = () => '0.9.0';
-const getAuthor = () => 'Namingray';
-const onMessage = () => {};
-const onSwitch = () => {};
-const getSettingsPanel = () => '';
+module.exports.getName = () => 'isani-bot UI';
 
-export {
-  getName,
-  getDescription,
-  getVersion,
-  getAuthor,
-  onMessage,
-  onSwitch,
-  getSettingsPanel
-}
+module.exports.getDescription = () => 'Extends default discord UI with isani-bot functionality';
+
+module.exports.getVersion = () => '0.9.0';
+
+module.exports.getAuthor = () => 'Namingray';
+
+module.exports.onMessage = () => {};
+
+module.exports.onSwitch = () => {}
+
+module.exports.getSettingsPanel = () => '';
