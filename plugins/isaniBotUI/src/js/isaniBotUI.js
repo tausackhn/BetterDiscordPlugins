@@ -1,1 +1,1 @@
-exports.getName = () => 'isani-bot UI';
+module.exports.getName = () => 'isani-bot UI';
