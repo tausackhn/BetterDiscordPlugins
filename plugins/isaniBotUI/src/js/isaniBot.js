@@ -46,18 +46,19 @@ class IsaniBot {
     $(document).off("click.erp");
   }
 
+  _updateChannels() {
+    request(this._endpoints.channels, (error, response, body) => {
+      if (!error && response.statusCode === 200) {
+        this._channels = JSON.parse(body);
+      } else {
+        this._channels = null;
+      }
+    });
+  };
+
   addUpdateChannels() {
-    const updateChannels = function () {
-      request(this._endpoints.channels, (error, response, body) => {
-        if (!error && response.statusCode === 200) {
-          this._channels = JSON.parse(body);
-        } else {
-          this._channels = null;
-        }
-      });
-    };
-    updateChannels();
-    this._interval = setInterval(updateChannels, this._updateInterval);
+    this._updateChannels();
+    this._interval = setInterval(_updateChannels, this._updateInterval);
   }
 
   addEventRegButtons() {
