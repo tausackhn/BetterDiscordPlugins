@@ -340,7 +340,7 @@ class IsaniBot {
             "img_url": $(".textarea-image").val(),
             "user": {
               "nickname": this._username,
-              "usr_id": this._id
+              "usr_id": this._usernameID
             }
           }
         }, (error, response, body) => {
