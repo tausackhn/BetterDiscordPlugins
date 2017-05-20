@@ -58,7 +58,7 @@ class IsaniBot {
 
   addUpdateChannels() {
     this._updateChannels();
-    this._interval = setInterval(_updateChannels, this._updateInterval);
+    this._interval = setInterval(this._updateChannels, this._updateInterval);
   }
 
   addEventRegButtons() {
