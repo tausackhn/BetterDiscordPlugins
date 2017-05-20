@@ -50,19 +50,21 @@ class IsaniBot {
     $(document).off("click.erp");
   }
 
-  _updateChannels() {
-    request(IsaniBot.getEndpoints().channels, (error, response, body) => {
-      if (!error && response.statusCode === 200) {
-        this._channels = JSON.parse(body);
-      } else {
-        this._channels = null;
-      }
-    });
-  };
-
   addUpdateChannels() {
-    this._updateChannels();
-    this._interval = setInterval(this._updateChannels, this._updateInterval);
+    const self = this;
+
+    self._updateChannels = function() {
+      request(IsaniBot.getEndpoints().channels, (error, response, body) => {
+        if (!error && response.statusCode === 200) {
+          self._channels = JSON.parse(body);
+        } else {
+          self._channels = null;
+        }
+      });
+    };
+
+    self._updateChannels();
+    self._interval = setInterval(self._updateChannels, self._updateInterval);
   }
 
   addEventRegButtons() {
