@@ -7,14 +7,17 @@ class IsaniBot {
     this._botID = id;
     this._username = $('.account-details .username').text();
     this._usernameID = $('.account .avatar-small').css('background-image').split('/')[4];
-    this._endpoints = {
-      'events': 'http://iiss.me:8080/discord/events',
-      'channels': 'http://iiss.me:8080/discord/channels'
-    };
     this._loadingTime = 500;
     this._channels = null;
     this._updateInterval = 120 * 1000;
     this._interval = null;
+  }
+
+  static getEndpoints() {
+    return {
+      'events': 'http://iiss.me:8080/discord/events',
+      'channels': 'http://iiss.me:8080/discord/channels'
+    };
   }
 
   checkBotPresence() {
@@ -48,8 +51,7 @@ class IsaniBot {
   }
 
   _updateChannels() {
-    debugger;
-    request(this._endpoints.channels, (error, response, body) => {
+    request(IsaniBot.getEndpoints().channels, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         this._channels = JSON.parse(body);
       } else {
@@ -92,7 +94,7 @@ class IsaniBot {
               const _handler = (requestAction, button1, button2) => () => {
                 button1.attr('disabled', 'disabled');
                 request({
-                  uri: this._endpoints.events,
+                  uri: IsaniBot.getEndpoints().events,
                   method: 'PUT',
                   json: {
                     "action": requestAction,
@@ -325,7 +327,7 @@ class IsaniBot {
         }
 
         request({
-          uri: this._endpoints.events,
+          uri: IsaniBot.getEndpoints().events,
           method: 'POST',
           json: {
             "channel_id": $('.channel.channel-text.selected').find('a').attr('href').split('/')[3],
