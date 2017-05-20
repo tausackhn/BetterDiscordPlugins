@@ -48,6 +48,7 @@ class IsaniBot {
   }
 
   _updateChannels() {
+    debugger;
     request(this._endpoints.channels, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         this._channels = JSON.parse(body);
@@ -284,6 +285,7 @@ class IsaniBot {
     });
 
     $('.bot-create-event-button').click(() => {
+      debugger;
       const eventName = $(".textarea-title").val();
       const at = $(".textarea-time").val();
       const part = parseInt($(".textarea-amount").val());
@@ -338,6 +340,7 @@ class IsaniBot {
             }
           }
         }, (error, response, body) => {
+          debugger;
           if (!error && response.statusCode === 200) {
             if (body.status) {
               $('.bot-event-reg-panel').find('textarea').val('');
