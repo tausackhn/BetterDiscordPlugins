@@ -1,4 +1,4 @@
-const IsaniBot = require('./isaniBot');
+const IsaniBot = require('./isaniBot.js');
 let isaniBot = null;
 
 const getName = () => 'isani-bot UI';
