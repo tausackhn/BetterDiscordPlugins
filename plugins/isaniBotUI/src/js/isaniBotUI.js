@@ -28,8 +28,7 @@ const start = () => {
 };
 
 const stop = () => {
-  isaniBot.cleanRegButtons();
-  isaniBot.cleanRegPanel();
+  isaniBot.destroy();
 };
 
 module.exports = {
