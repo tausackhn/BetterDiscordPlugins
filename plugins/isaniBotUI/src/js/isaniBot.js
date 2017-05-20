@@ -16,47 +16,47 @@ class IsaniBot {
     this._interval = null;
   }
 
-  checkBotPresence = function() {
-  let exist = false;
-  const $selected = $('.guild-channels .channel.selected');
-  if ($selected.length && this._channels) {
-    const uri = $selected.children('a').attr('href');
-    const match = uri.match(/\/channels\/(\d+)\/(\d+)/);
-    if (match[1] in this._channels) {
-      this._channels[match[1]].forEach(element => {
-        if (element['_id'] == match[2]) {
-          exist = true;
+  checkBotPresence() {
+    let exist = false;
+    const $selected = $('.guild-channels .channel.selected');
+    if ($selected.length && this._channels) {
+      const uri = $selected.children('a').attr('href');
+      const match = uri.match(/\/channels\/(\d+)\/(\d+)/);
+      if (match[1] in this._channels) {
+        this._channels[match[1]].forEach(element => {
+          if (element['_id'] == match[2]) {
+            exist = true;
+          }
+        });
+      }
+    }
+    return exist;
+  }
+
+  static cleanRegButtons() {
+    $('.bot-event-reg-button').remove();
+    BdApi.clearCSS("eventRegButtonsCSS");
+    $(document).off("click.erb");
+  }
+
+  static cleanRegPanel() {
+    $('.bot-event-reg-icon, .bot-event-reg-panel').remove();
+    $('.bot-event-reg-panel').remove();
+    BdApi.clearCSS("eventRegPanelCSS");
+    $(document).off("click.erp");
+  }
+
+  addUpdateChannels() {
+    const updateChannels = function () {
+      request(this._endpoints.channels, (error, response, body) => {
+        if (!error && response.statusCode === 200) {
+          this._channels = JSON.parse(body);
+        } else {
+          this._channels = null;
         }
       });
-    }
+    };
+    updateChannels();
+    this._interval = setInterval(updateChannels, this._updateInterval);
   }
-  return exist;
-};
-
-  cleanRegButtons = function() {
-  $('.bot-event-reg-button').remove();
-  BdApi.clearCSS("eventRegButtonsCSS");
-  $(document).off("click.erb");
-};
-
-  cleanRegPanel = function() {
-  $('.bot-event-reg-icon, .bot-event-reg-panel').remove();
-  $('.bot-event-reg-panel').remove();
-  BdApi.clearCSS("eventRegPanelCSS");
-  $(document).off("click.erp");
-};
-
-  addUpdateChannels = function() {
-  const updateChannels = function () {
-    request(this._endpoints.channels, (error, response, body) => {
-      if (!error && response.statusCode === 200) {
-        this._channels = JSON.parse(body);
-      } else {
-        this._channels = null;
-      }
-    });
-  };
-  updateChannels();
-  this._interval = setInterval(updateChannels, this._updateInterval);
-};
 }
