@@ -2,6 +2,7 @@
 class IsaniBot {
 
   constructor(id) {
+    debugger;
     this._theme = $('[class^="theme-"]').attr('class');
     this._botID = id;
     this._username = $('.account-details .username').text();
