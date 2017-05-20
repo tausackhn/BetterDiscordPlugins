@@ -58,7 +58,7 @@ IsaniBot.prototype.addUpdateChannels = function() {
   updateChannels();
   this._interval = setInterval(updateChannels, this._updateInterval);
 };
-
+/*
 IsaniBot.prototype.addEventRegButtons = function() {
   this.cleanRegButtons();
   BdApi.injectCSS('eventRegButtonsCSS',
@@ -351,5 +351,5 @@ IsaniBot.prototype.addEventRegPanel = function() {
     }
   });
 };
-
+*/
 module.exports = IsaniBot;
