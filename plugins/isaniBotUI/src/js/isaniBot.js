@@ -1,5 +1,3 @@
-const request = require('request');
-
 const IsaniBot = (id) => {
   this._theme = $('[class^="theme-"]').attr('class');
   this._botID = id;
