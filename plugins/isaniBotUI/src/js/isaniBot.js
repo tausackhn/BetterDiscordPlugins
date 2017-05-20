@@ -1,19 +1,22 @@
-const IsaniBot = (id) => {
-  this._theme = $('[class^="theme-"]').attr('class');
-  this._botID = id;
-  this._username = $('.account-details .username').text();
-  this._usernameID = $('.account .avatar-small').css('background-image').split('/')[4];
-  this._endpoints = {
-    'events': 'http://iiss.me:8080/discord/events',
-    'channels': 'http://iiss.me:8080/discord/channels'
-  };
-  this._loadingTime = 500;
-  this._channels = null;
-  this._updateInterval = 120 * 1000;
-  this._interval = null;
-}
+'use strict';
+class IsaniBot {
 
-IsaniBot.prototype.checkBotPresence = function() {
+  constructor(id) {
+    this._theme = $('[class^="theme-"]').attr('class');
+    this._botID = id;
+    this._username = $('.account-details .username').text();
+    this._usernameID = $('.account .avatar-small').css('background-image').split('/')[4];
+    this._endpoints = {
+      'events': 'http://iiss.me:8080/discord/events',
+      'channels': 'http://iiss.me:8080/discord/channels'
+    };
+    this._loadingTime = 500;
+    this._channels = null;
+    this._updateInterval = 120 * 1000;
+    this._interval = null;
+  }
+
+  checkBotPresence = function() {
   let exist = false;
   const $selected = $('.guild-channels .channel.selected');
   if ($selected.length && this._channels) {
@@ -30,20 +33,20 @@ IsaniBot.prototype.checkBotPresence = function() {
   return exist;
 };
 
-IsaniBot.prototype.cleanRegButtons = function() {
+  cleanRegButtons = function() {
   $('.bot-event-reg-button').remove();
   BdApi.clearCSS("eventRegButtonsCSS");
   $(document).off("click.erb");
 };
 
-IsaniBot.prototype.cleanRegPanel = function() {
+  cleanRegPanel = function() {
   $('.bot-event-reg-icon, .bot-event-reg-panel').remove();
   $('.bot-event-reg-panel').remove();
   BdApi.clearCSS("eventRegPanelCSS");
   $(document).off("click.erp");
 };
 
-IsaniBot.prototype.addUpdateChannels = function() {
+  addUpdateChannels = function() {
   const updateChannels = function () {
     request(this._endpoints.channels, (error, response, body) => {
       if (!error && response.statusCode === 200) {
@@ -56,5 +59,4 @@ IsaniBot.prototype.addUpdateChannels = function() {
   updateChannels();
   this._interval = setInterval(updateChannels, this._updateInterval);
 };
-
-module.exports = IsaniBot;
+}
