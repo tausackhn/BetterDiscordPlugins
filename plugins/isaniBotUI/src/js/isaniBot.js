@@ -61,7 +61,7 @@ class IsaniBot {
   }
 
   addEventRegButtons() {
-    this.cleanRegButtons();
+    IsaniBot.cleanRegButtons();
     BdApi.injectCSS('eventRegButtonsCSS',
         '.button { position: absolute; right: 2px; top: 2px; z-index: 9999; color: #fff; border: 1px solid transparent;' +
         'display: inline-block; padding: 5px 12px;font-size: 14px; font-weight: 400; line-height: 1.42857;' +
