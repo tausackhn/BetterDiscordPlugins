@@ -1,17 +1,23 @@
 class IsaniBot {
 
   constructor(id) {
-    debugger;
-    this._theme = $('[class^="theme-"]').attr('class');
-    this._botID = id;
-    this._username = $('[class^="accountDetails-"]').find('.username').text();
-    this._usernameID = $('[class^="accountDetails-"]').parent().find('.avatar-small').css('background-image').split('/')[4];
-    this._loadingTime = 500;
-    this._channels = null;
-    this._updateInterval = 120 * 1000;
-    this._interval = null;
+    try {
+      debugger;
+      this._theme = $('[class^="theme-"]').attr('class');
+      this._botID = id;
+      this._username = $('[class^="accountDetails-"]').find('.username').text();
+      this._usernameID = $('[class^="accountDetails-"]').parent().find('.avatar-small').css('background-image').split('/')[4];
+      this._loadingTime = 500;
+      this._channels = null;
+      this._updateInterval = 120 * 1000;
+      this._interval = null;
 
-    this._injectCSS();
+      this._injectCSS();
+    }
+    catch(error) {
+      console.log('IsaniBot UI exception - ' + error);
+    }
+
   }
 
   static getEndpoints() {
