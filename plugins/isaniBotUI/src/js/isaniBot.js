@@ -37,7 +37,7 @@ class IsaniBot {
 
   checkBotPresence() {
     let exist = false;
-    const $selected = $('.channels-wrap').find('[class^="wrapperSelectedText"');
+    const $selected = $('.channels-wrap').find('[class^="wrapperSelectedText"]');
     if ($selected.length && this._channels) {
       const uri = $selected.children('a').attr('href');
       const match = uri.match(/\/channels\/(\d+)\/(\d+)/);
