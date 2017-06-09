@@ -9,7 +9,7 @@ class htmlWrapper {
     this._htmlEndpoints.forEach(endpoint => {
       request({ url: endpoint }, (error, response, body) => {
         if (!error && response.statusCode === 200) {
-          this._html[endpoint.match(/([^/]+)(?=\.\w+$)/)[0]] = body;
+          this._html[endpoint.match(/([^/]+)(?=\.\w+$)/)[0]] = body.replace(/(\r\n|\n|\r)/gm,"");
         }
       });
     })
