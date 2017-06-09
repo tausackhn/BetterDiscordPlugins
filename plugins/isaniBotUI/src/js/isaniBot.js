@@ -35,15 +35,15 @@ class IsaniBot {
 
     clearInterval(this._interval);
 
-    BdApi.clearCSS('isaniBotUI');
+    //BdApi.clearCSS('isaniBotUI');
     $(document).off("click.erb");
     $(document).off("click.erp");
   }
 
   _injectCSS() {
     const css = new cssWrapper();
-    BdApi.injectCSS('isaniBotUI', css.getCSS('isaniBotUI'));
-    console.info('isaniBot UI - css has been loaded!');
+    $("<style></style>").appendTo('head').html(css.getCSS('isaniBotUI'));
+    //BdApi.injectCSS('isaniBotUI', css.getCSS('isaniBotUI'));
   }
 
   checkBotPresence() {
