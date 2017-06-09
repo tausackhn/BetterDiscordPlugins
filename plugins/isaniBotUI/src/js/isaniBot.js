@@ -9,6 +9,7 @@ class IsaniBot {
       this._usernameID = $('[class^="accountDetails-"]').parent().find('.avatar-small').css('background-image').split('/')[4];
       this._loadingTime = 500;
       this._guilds = null;
+      this._selectedGuild = null;
       this._updateInterval = 120 * 1000;
       this._interval = null;
       this._html = new htmlWrapper();
@@ -48,12 +49,16 @@ class IsaniBot {
     if ($selectedGuild.length && this._guilds) {
       const uri = $selectedGuild.find('a').attr('href');
       const match = uri.match(/\/channels\/(\d+)\/(\d+)/);
-      if (match[1] in this._guilds) {
-        this._guilds[match[1]].forEach(guild => {
-          if (guild.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text()) {
-            exist = true;
-          }
+      this._selectedGuild = match[1];
+      if (this._selectedGuild in this._guilds) {
+        const guild = $.grep(this._guilds[this._selectedGuild], channel => {
+          return channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text();
         });
+
+        //TODO find the way to handle channels with the same name
+        if (guild.length === 1) {
+          exist = true;
+        }
       }
     }
     return exist;
@@ -257,23 +262,26 @@ class IsaniBot {
           throw "URL картинки не валидно!"
         }
 
+        const guild = $.grep(this._guilds[this._selectedGuild], channel => {
+          return channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text();
+        });
+
         request({
           uri: IsaniBot.getEndpoints().events,
           method: 'POST',
           json: {
-            "channel_id": $('.channel.channel-text.selected').find('a').attr('href').split('/')[3],
-            "event_name": $(".textarea-title").val(),
-            "at": $(".textarea-time").val(),
-            "part": parseInt($(".textarea-amount").val()),
-            "desc": $(".textarea-desc").val(),
-            "img_url": $(".textarea-image").val(),
+            "channel_id": guild[0]._id,
+            "event_name": eventName,
+            "at": at,
+            "part": part,
+            "desc": desc,
+            "img_url": imgURL,
             "user": {
               "nickname": this._username,
               "usr_id": this._usernameID
             }
           }
         }, (error, response, body) => {
-          debugger;
           if (!error && response.statusCode === 200) {
             if (body.status) {
               $('.bot-event-reg-panel').find('textarea').val('');
