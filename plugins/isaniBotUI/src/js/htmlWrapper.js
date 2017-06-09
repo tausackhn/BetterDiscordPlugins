@@ -6,7 +6,7 @@ class htmlWrapper {
       'https://raw.githubusercontent.com/Namingray/BetterDiscordPlugins/test/plugins/isaniBotUI/src/html/newEventPanel.html'
     ];
 
-    this._cssEndpoints.forEach(endpoint => {
+    this._htmlEndpoints.forEach(endpoint => {
       request({ url: endpoint }, (error, response, body) => {
         if (!error && response.statusCode === 200) {
           this._html[endpoint.match(/([^/]+)(?=\.\w+$)/)[0]] = body;
