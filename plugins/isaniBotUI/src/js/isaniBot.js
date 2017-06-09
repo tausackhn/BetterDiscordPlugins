@@ -8,7 +8,7 @@ class IsaniBot {
       this._username = $('[class^="accountDetails-"]').find('.username').text();
       this._usernameID = $('[class^="accountDetails-"]').parent().find('.avatar-small').css('background-image').split('/')[4];
       this._loadingTime = 500;
-      this._channels = null;
+      this._guilds = null;
       this._updateInterval = 120 * 1000;
       this._interval = null;
 
@@ -23,7 +23,7 @@ class IsaniBot {
   static getEndpoints() {
     return {
       'events': 'http://iiss.me:8080/discord/events',
-      'channels': 'http://iiss.me:8080/discord/channels'
+      'guilds': 'http://iiss.me:8080/discord/channels'
     };
   }
 
@@ -43,13 +43,13 @@ class IsaniBot {
 
   checkBotPresence() {
     let exist = false;
-    const $selected = $('.channels-wrap').find('[class^="wrapperSelectedText"]');
-    if ($selected.length && this._channels) {
-      const uri = $selected.children('a').attr('href');
+    const $selectedGuild = $('.guilds-wrapper .guilds .guild.selected');
+    if ($selectedGuild.length && this._guilds) {
+      const uri = $selectedGuild.children('a').attr('href');
       const match = uri.match(/\/channels\/(\d+)\/(\d+)/);
-      if (match[1] in this._channels) {
-        this._channels[match[1]].forEach(element => {
-          if (element['_id'] == match[2]) {
+      if (match[1] in this._guilds) {
+        this._guilds[match[1]].forEach(guild => {
+          if (guild.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text()) {
             exist = true;
           }
         });
@@ -62,11 +62,11 @@ class IsaniBot {
     const self = this;
 
     self._updateChannels = function() {
-      request(IsaniBot.getEndpoints().channels, (error, response, body) => {
+      request(IsaniBot.getEndpoints().guilds, (error, response, body) => {
         if (!error && response.statusCode === 200) {
-          self._channels = JSON.parse(body);
+          self._guilds = JSON.parse(body);
         } else {
-          self._channels = null;
+          self._guilds = null;
         }
       });
     };
