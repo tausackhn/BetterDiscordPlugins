@@ -11,6 +11,7 @@ class IsaniBot {
       this._guilds = null;
       this._updateInterval = 120 * 1000;
       this._interval = null;
+      this._html = new htmlWrapper();
 
       this._injectCSS();
     }
@@ -151,61 +152,10 @@ class IsaniBot {
   addEventRegPanel() {
     const $button = $('<button type="button" class="bot-event-reg-icon"><span></span></button>');
 
-    const $panel = $('<div class="bot-event-reg-panel popout popout-bottom-right no-arrow no-shadow">' +
-        '<div class="messages-popout-wrap themed-popout bot-event-reg-panel-content">' +
-        '<div class="header">' +
-        '<div class="title">Создать событие</div>' +
-        '</div>' +
-        '<div class="scroller-wrap dark">' +
-        '<div class="scroller messages-popout">' +
-        '<div class="' + self.theme + '">Имя:</div>' +
-        '<form>' +
-        '<div class="channel-textarea margin10">' +
-        '<div class="channel-textarea-inner event-textarea">' +
-        '<textarea class="textarea-title" rows="1" style="height: auto; overflow: hidden;"></textarea>' +
-        '</div>' +
-        '</div>' +
-        '</form>' +
-        '<div class="' + self.theme + '">Когда:</div>' +
-        '<form>' +
-        '<div class="channel-textarea margin10">' +
-        '<div class="channel-textarea-inner event-textarea">' +
-        '<textarea class="textarea-time" rows="1" style="height: auto; overflow: hidden;"></textarea>' +
-        '</div>' +
-        '</div>' +
-        '</form>' +
-        '<div class="' + self.theme + '">Количество участников:</div>' +
-        '<form>' +
-        '<div class="channel-textarea margin10">' +
-        '<div class="channel-textarea-inner event-textarea">' +
-        '<textarea class="textarea-amount" rows="1" style="height: auto; overflow: hidden;"></textarea>' +
-        '</div>' +
-        '</div>' +
-        '</form>' +
-        '<div class="' + self.theme + '">Описание:</div>' +
-        '<form>' +
-        '<div class="channel-textarea margin10">' +
-        '<div class="channel-textarea-inner event-textarea">' +
-        '<textarea class="textarea-desc" rows="1" style="height: auto; overflow: hidden;"></textarea>' +
-        '</div>' +
-        '</div>' +
-        '</form>' +
-        '<div class="' + self.theme + '">URL картинки:</div>' +
-        '<form>' +
-        '<div class="channel-textarea margin10">' +
-        '<div class="channel-textarea-inner event-textarea">' +
-        '<textarea class="textarea-image" rows="1" style="height: auto; overflow: hidden;"></textarea>' +
-        '</div>' +
-        '</div>' +
-        '</form>' +
-        '<div class="server-response" style="float: left; width: 60%; color: cyan"></div>' +
-        '<button type="button" class="bot-create-event-button">Создать событие</button>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>');
+    const $panel = $(this._html.getHTML('newEventPanel'));
+    $panel.find('.discord-theme').addClass(this._theme);
 
-    $('#app-mount').children().children().eq(4).append($panel);
+    $('#app-mount').children().children().eq(5).append($panel);
 
     const _setIconState = () => {
       this._loadingTime = 500;
