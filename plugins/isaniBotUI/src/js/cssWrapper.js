@@ -9,7 +9,7 @@ class cssWrapper {
     this._cssEndpoints.forEach(endpoint => {
       request({ url: endpoint }, (error, response, body) => {
         if (!error && response.statusCode === 200) {
-          this._css[endpoint.match(/([^/]+)(?=\.\w+$)/)[0]] = body;
+          this._css[endpoint.match(/([^/]+)(?=\.\w+$)/)[0]] = body.replace(/(\r\n|\n|\r)/gm,"");
         }
       });
     })
