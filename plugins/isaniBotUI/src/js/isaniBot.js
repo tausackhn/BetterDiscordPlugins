@@ -33,6 +33,8 @@ class IsaniBot {
     const $elements = $('.bot-event-reg-button, .bot-event-reg-icon, .bot-event-reg-panel, .bot-event-reg-panel');
     $elements.remove();
 
+    clearInterval(this._interval);
+
     BdApi.clearCSS('isaniBotUI');
     $(document).off("click.erb");
     $(document).off("click.erp");
@@ -51,12 +53,10 @@ class IsaniBot {
       const match = uri.match(/\/channels\/(\d+)\/(\d+)/);
       this._selectedGuild = match[1];
       if (this._selectedGuild in this._guilds) {
-        const guild = $.grep(this._guilds[this._selectedGuild], channel => {
-          return channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text();
-        });
+        const selectedChannel = $.grep(this._guilds[this._selectedGuild], channel => channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text());
 
         //TODO find the way to handle channels with the same name
-        if (guild.length === 1) {
+        if (selectedChannel.length === 1) {
           exist = true;
         }
       }
@@ -262,7 +262,7 @@ class IsaniBot {
           throw "URL картинки не валидно!"
         }
 
-        const guild = $.grep(this._guilds[this._selectedGuild], channel => {
+        const selectedChannel = $.grep(this._guilds[this._selectedGuild], channel => {
           return channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text();
         });
 
@@ -270,7 +270,7 @@ class IsaniBot {
           uri: IsaniBot.getEndpoints().events,
           method: 'POST',
           json: {
-            "channel_id": guild[0]._id,
+            "channel_id": selectedChannel[0]._id,
             "event_name": eventName,
             "at": at,
             "part": part,
