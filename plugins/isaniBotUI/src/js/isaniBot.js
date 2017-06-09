@@ -45,7 +45,7 @@ class IsaniBot {
     let exist = false;
     const $selectedGuild = $('.guilds-wrapper .guilds .guild.selected');
     if ($selectedGuild.length && this._guilds) {
-      const uri = $selectedGuild.children('a').attr('href');
+      const uri = $selectedGuild.find('a').attr('href');
       const match = uri.match(/\/channels\/(\d+)\/(\d+)/);
       if (match[1] in this._guilds) {
         this._guilds[match[1]].forEach(guild => {
