@@ -270,7 +270,7 @@ class IsaniBot {
           uri: IsaniBot.getEndpoints().events,
           method: 'POST',
           json: {
-            "channel_id": selectedChannel[0]._id,
+            "channel_id": selectedChannel[0]._id.toString(),
             "event_name": eventName,
             "at": at,
             "part": part,
