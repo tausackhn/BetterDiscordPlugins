@@ -22,11 +22,8 @@ const load = () => {
 const unload = () => {};
 
 const start = () => {
-  isaniBot.addUpdateChannels();
-  $.when(isaniBot.guildsIsReady()).then(() => {
-    isaniBot.addEventRegButtons();
-    isaniBot.addEventRegPanel();
-  });
+  isaniBot.addEventRegButtons();
+  isaniBot.addEventRegPanel();
 };
 
 const stop = () => {
