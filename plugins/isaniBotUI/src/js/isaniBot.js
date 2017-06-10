@@ -9,6 +9,7 @@ class IsaniBot {
       this._usernameID = $('[class^="accountDetails-"]').parent().find('.avatar-small').css('background-image').split('/')[4];
       this._loadingTime = 500;
       this._guilds = null;
+      this._guildsReady = $.Deferred();
       this._selectedGuild = null;
       this._updateInterval = 120 * 1000;
       this._interval = null;
@@ -52,6 +53,10 @@ class IsaniBot {
     return $.grep(this._guilds[this._selectedGuild], channel => channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text());
   }
 
+  guildsIsReady() {
+    return this._guildsReady;
+  }
+
   checkBotPresence() {
     let exist = false;
     const $selectedGuild = $('.guilds-wrapper .guilds .guild.selected');
@@ -79,6 +84,7 @@ class IsaniBot {
         } else {
           self._guilds = null;
         }
+        this._guildsReady.resolve();
       });
     };
 

@@ -23,8 +23,10 @@ const unload = () => {};
 
 const start = () => {
   isaniBot.addUpdateChannels();
-  isaniBot.addEventRegButtons();
-  isaniBot.addEventRegPanel();
+  $.when(isaniBot.guildsIsReady()).then(() => {
+    isaniBot.addEventRegButtons();
+    isaniBot.addEventRegPanel();
+  });
 };
 
 const stop = () => {
