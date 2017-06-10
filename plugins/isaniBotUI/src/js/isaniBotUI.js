@@ -22,9 +22,9 @@ const load = () => {
 const unload = () => {};
 
 const start = () => {
+  isaniBot.addUpdateChannels();
   isaniBot.addEventRegButtons();
   isaniBot.addEventRegPanel();
-  isaniBot.addUpdateChannels();
 };
 
 const stop = () => {
