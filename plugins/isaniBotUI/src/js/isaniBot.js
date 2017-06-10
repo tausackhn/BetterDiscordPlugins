@@ -42,14 +42,12 @@ class IsaniBot {
 
   _injectCSS() {
     const css = new cssWrapper();
-    $('<style id="isaniBotUI"></style>').html(css.getCSS('isaniBotUI')).appendTo('head');
+    $('<style id="isaniBotUI">' + css.getCSS('isaniBotUI') + '</style>').appendTo('head');
     //BdApi.injectCSS('isaniBotUI', css.getCSS('isaniBotUI'));
   }
 
   _getSelectedChannel() {
-    return $.grep(this._guilds[this._selectedGuild], channel => {
-      return channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text();
-    });
+    return $.grep(this._guilds[this._selectedGuild], channel => channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text());
   }
 
   checkBotPresence() {
