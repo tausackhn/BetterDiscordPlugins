@@ -61,7 +61,7 @@ class IsaniBot {
       this._selectedGuild = match[1];
       if (this._selectedGuild in this._guilds) {
         //TODO find the way to handle channels with the same name
-        if (this._getSelectedChannel.length === 1) {
+        if (this._getSelectedChannel().length === 1) {
           exist = true;
         }
       }
@@ -108,7 +108,7 @@ class IsaniBot {
                   method: 'PUT',
                   json: {
                     "action": requestAction,
-                    "channel_id": this._getSelectedChannel[0].channel_id.toString(),
+                    "channel_id": this._getSelectedChannel()[0].channel_id.toString(),
                     "event_id": eventID,
                     "user": {
                       "nickname": this._username,
@@ -271,7 +271,7 @@ class IsaniBot {
           uri: IsaniBot.getEndpoints().events,
           method: 'POST',
           json: {
-            "channel_id": this._getSelectedChannel[0].channel_id.toString(),
+            "channel_id": this._getSelectedChannel()[0].channel_id.toString(),
             "event_name": eventName,
             "at": at,
             "part": part,
