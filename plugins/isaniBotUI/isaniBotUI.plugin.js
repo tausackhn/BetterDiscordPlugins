@@ -17,6 +17,7 @@ const get_source = function(url, callback) {
   });
 };
 
+debugger;
 request({ url: srcEndpoint, json: true }, (error, response, body) => {
   if (!error && response.statusCode === 200) {
     async.map(body, get_source, (error, results) => {
