@@ -42,7 +42,9 @@ class IsaniBot {
 
   _injectCSS() {
     const css = new cssWrapper();
-    $('<style id="isaniBotUI">' + css.getCSS('isaniBotUI') + '</style>').appendTo('head');
+    $.when(css.isReady()).then(() => {
+      $('<style id="isaniBotUI">' + css.getCSS('isaniBotUI') + '</style>').appendTo('head');
+    })
     //BdApi.injectCSS('isaniBotUI', css.getCSS('isaniBotUI'));
   }
 
