@@ -6,7 +6,7 @@ class IsaniBot {
       this._theme = $('[class^="theme-"]').attr('class');
       this._botID = id;
       this._username = $('[class^="accountDetails-"]').find('.username').text();
-      this._usernameID = parseInt($('[class^="accountDetails-"]').parent().find('.avatar-small').css('background-image').split('/')[4]);
+      this._usernameID = $('[class^="accountDetails-"]').parent().find('.avatar-small').css('background-image').split('/')[4];
       this._loadingTime = 500;
       this._guilds = null;
       this._selectedGuild = null;
@@ -271,7 +271,7 @@ class IsaniBot {
           uri: IsaniBot.getEndpoints().events,
           method: 'POST',
           json: {
-            "channel_id": selectedChannel[0]._id,
+            "channel_id": selectedChannel[0].channel_id.toString(),
             "event_name": eventName,
             "at": at,
             "part": part,
