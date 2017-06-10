@@ -2,7 +2,7 @@ class cssWrapper {
   constructor() {
 
     this._css = {};
-    this._isReady = $.Deffered();
+    this._isReady = $.Deferred();
     this._cssEndpoints = [
       'https://raw.githubusercontent.com/Namingray/BetterDiscordPlugins/test/plugins/isaniBotUI/src/css/isaniBotUI.css'
     ];
