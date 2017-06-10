@@ -46,6 +46,12 @@ class IsaniBot {
     //BdApi.injectCSS('isaniBotUI', css.getCSS('isaniBotUI'));
   }
 
+  _getSelectedChannel() {
+    return $.grep(this._guilds[this._selectedGuild], channel => {
+      return channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text();
+    });
+  }
+
   checkBotPresence() {
     let exist = false;
     const $selectedGuild = $('.guilds-wrapper .guilds .guild.selected');
@@ -54,10 +60,8 @@ class IsaniBot {
       const match = uri.match(/\/channels\/(\d+)\/(\d+)/);
       this._selectedGuild = match[1];
       if (this._selectedGuild in this._guilds) {
-        const selectedChannel = $.grep(this._guilds[this._selectedGuild], channel => channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text());
-
         //TODO find the way to handle channels with the same name
-        if (selectedChannel.length === 1) {
+        if (this._getSelectedChannel.length === 1) {
           exist = true;
         }
       }
@@ -104,11 +108,11 @@ class IsaniBot {
                   method: 'PUT',
                   json: {
                     "action": requestAction,
-                    "channel_id": $('.channel.channel-text.selected').find('a').attr('href').split('/')[3],
+                    "channel_id": this._getSelectedChannel[0].channel_id.toString(),
                     "event_id": eventID,
                     "user": {
                       "nickname": this._username,
-                      "usr_id": this._id
+                      "usr_id": this._usernameID
                     }
                   }
                 }, (error, response, body) => {
@@ -263,15 +267,11 @@ class IsaniBot {
           throw "URL картинки не валидно!"
         }
 
-        const selectedChannel = $.grep(this._guilds[this._selectedGuild], channel => {
-          return channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text();
-        });
-
         request({
           uri: IsaniBot.getEndpoints().events,
           method: 'POST',
           json: {
-            "channel_id": selectedChannel[0].channel_id.toString(),
+            "channel_id": this._getSelectedChannel[0].channel_id.toString(),
             "event_name": eventName,
             "at": at,
             "part": part,
@@ -286,7 +286,7 @@ class IsaniBot {
           if (!error && response.statusCode === 200) {
             if (body.status) {
               $('.bot-event-reg-panel').find('textarea').val('');
-              $(".server-response").text(body.message);
+              $(".server-response").text('Событие успешно создано!');
             }
           }
           else {
