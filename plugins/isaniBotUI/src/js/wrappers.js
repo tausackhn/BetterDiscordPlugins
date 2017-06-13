@@ -28,6 +28,7 @@ class BaseWrapper {
   }
 
   isReady() {
+    console.log('content is ready')
     return this._isReady;
   }
 }

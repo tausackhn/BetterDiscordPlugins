@@ -23,6 +23,7 @@ const unload = () => {};
 
 const start = () => {
   $.when(isaniBot.isReady()).then(() => {
+    console.log('isanibot is ready');
     isaniBot.addEventRegButtons();
     isaniBot.addEventRegPanel();
   });

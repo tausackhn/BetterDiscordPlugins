@@ -79,7 +79,9 @@ class IsaniBot {
         }
 
         $.when(this._css.isReady(), this._html.isReady()).done(() => {
+          console.log('is ready is ready')
           this._isReady.resolve();
+
         });
       });
     };
