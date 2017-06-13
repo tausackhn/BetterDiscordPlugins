@@ -18,7 +18,6 @@ class IsaniBot {
       $.when(this._css.isReady(), this._html.isReady()).then(() => {
         this._injectCSS();
         this._addUpdateChannels();
-        this._isReady.resolve();
       });
     }
     catch(error) {
@@ -41,15 +40,12 @@ class IsaniBot {
     const $elements = $('.bot-event-reg-button, .bot-event-reg-icon, .bot-event-reg-panel, .bot-event-reg-panel');
     $elements.remove();
 
-    clearInterval(this._interval);
-
-    BdApi.clearCSS('isaniBotUI');
     $(document).off("click.erb");
     $(document).off("click.erp");
   }
 
   _injectCSS() {
-    BdApi.injectCSS('isaniBotUI', css.getCSS('isaniBotUI'));
+    BdApi.injectCSS('isaniBotUI', this._css.getCSS('isaniBotUI'));
   }
 
   _getSelectedChannel() {
@@ -83,6 +79,8 @@ class IsaniBot {
         } else {
           self._guilds = null;
         }
+
+        this._isReady.resolve();
       });
     };
 
