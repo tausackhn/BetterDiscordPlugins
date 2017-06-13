@@ -80,8 +80,9 @@ class IsaniBot {
         } else {
           self._guilds = null;
         }
-
-        this._isReady.resolve();
+        if (this.isReady.state() === 'pending') {
+          this._isReady.resolve();
+        }
       });
     };
 
