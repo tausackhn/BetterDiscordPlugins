@@ -78,7 +78,7 @@ class IsaniBot {
           self._guilds = null;
         }
 
-        $.when(this._css.isReady(), this._html.isReady()).then(() => {
+        $.when(this._css.isReady(), this._html.isReady()).done(() => {
           this._isReady.resolve();
         });
       });
