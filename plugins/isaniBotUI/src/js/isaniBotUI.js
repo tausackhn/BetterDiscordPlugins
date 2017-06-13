@@ -22,10 +22,10 @@ const load = () => {
 const unload = () => {};
 
 const start = () => {
-  setTimeout(() => {
+  $.when(isaniBot.isReady()).then(() => {
     isaniBot.addEventRegButtons();
     isaniBot.addEventRegPanel();
-  }, 1000)
+  });
 };
 
 const stop = () => {

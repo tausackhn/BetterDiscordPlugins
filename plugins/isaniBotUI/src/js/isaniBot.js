@@ -12,9 +12,14 @@ class IsaniBot {
       this._updateInterval = 120 * 1000;
       this._interval = null;
       this._html = new htmlWrapper();
+      this._css = new cssWrapper();
+      this._isReady = $.Deferred();
 
-      this._injectCSS();
-      this._addUpdateChannels();
+      $.when(this._css.isReady(), this._html.isReady()).then(() => {
+        this._injectCSS();
+        this._addUpdateChannels();
+        this._isReady.resolve();
+      });
     }
     catch(error) {
       console.log('IsaniBot UI exception - ' + error);
@@ -26,6 +31,10 @@ class IsaniBot {
       'events': 'http://iiss.me:8080/discord/events',
       'guilds': 'http://iiss.me:8080/discord/channels'
     };
+  }
+
+  isReady() {
+    return this._isReady();
   }
 
   destroy() {
