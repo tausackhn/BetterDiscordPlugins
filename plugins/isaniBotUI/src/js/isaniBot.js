@@ -55,7 +55,6 @@ class IsaniBot {
 
   checkBotPresence() {
     let exist = false;
-    debugger;
     const $selectedGuild = $('.guilds-wrapper .guilds .guild.selected');
     if ($selectedGuild.length && this._guilds) {
       const uri = $selectedGuild.find('a').attr('href');
@@ -63,7 +62,6 @@ class IsaniBot {
       this._selectedGuild = match[1];
       if (this._selectedGuild in this._guilds) {
         //TODO find the way to handle channels with the same name
-        console.log(this._getSelectedChannel())
         if (this._getSelectedChannel().length === 1) {
           exist = true;
         }
@@ -171,7 +169,6 @@ class IsaniBot {
   }
 
   addEventRegPanel() {
-    debugger;
     try {
       const $button = $('<button type="button" class="bot-event-reg-icon"><span></span></button>');
 
