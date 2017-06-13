@@ -31,3 +31,27 @@ class BaseWrapper {
     return this._isReady;
   }
 }
+
+class CssWrapper extends BaseWrapper {
+  constructor() {
+
+    super();
+    this._endpoints = [
+      'https://raw.githubusercontent.com/Namingray/BetterDiscordPlugins/test/plugins/isaniBotUI/src/css/isaniBotUI.css'
+    ];
+
+    this._downloadContent();
+  }
+}
+
+class HtmlWrapper extends BaseWrapper {
+  constructor() {
+
+    super();
+    this._endpoints = [
+      'https://raw.githubusercontent.com/Namingray/BetterDiscordPlugins/test/plugins/isaniBotUI/src/html/newEventPanel.html'
+    ];
+
+    this._downloadContent()
+  }
+}
