@@ -37,7 +37,7 @@ class CssWrapper extends BaseWrapper {
 
     super();
     this._endpoints = [
-      'https://raw.githubusercontent.com/Namingray/BetterDiscordPlugins/test/plugins/isaniBotUI/src/css/isaniBotUI.css'
+      'http://iiss.me/discord/plugin/plugins/isaniBotUI/src/css/isaniBotUI.css'
     ];
 
     this._downloadContent();
@@ -49,7 +49,7 @@ class HtmlWrapper extends BaseWrapper {
 
     super();
     this._endpoints = [
-      'https://raw.githubusercontent.com/Namingray/BetterDiscordPlugins/test/plugins/isaniBotUI/src/html/newEventPanel.html'
+      'http://iiss.me/discord/plugin/plugins/isaniBotUI/src/html/newEventPanel.html'
     ];
 
     this._downloadContent()

@@ -4,7 +4,7 @@ const vm = require('vm');
 const async = require('async')
 const request = require('request');
 
-const srcEndpoint = 'https://raw.githubusercontent.com/Namingray/BetterDiscordPlugins/test/plugins/isaniBotUI/src/data/endpoints.json'
+const srcEndpoint = 'http://iiss.me/discord/plugin/plugins/isaniBotUI/src/data/endpoints.json'
 const isaniBotUI = function() {};
 
 isaniBotUI.prototype.getName = () => 'isani-bot UI';
