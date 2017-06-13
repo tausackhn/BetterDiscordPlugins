@@ -224,6 +224,11 @@ class IsaniBot {
             }, 100);
           });
           _setIconState();
+
+          //TODO check other possible channel states
+          $('[class^="containerDefault-"]').find('[class^="wrapperSelectedText-"], [class^="wrapperDefaultText-"], [class^="wrapperMutedText-"]').click(() => {
+            _setIconState();
+          });
         }, 100);
       });
 
