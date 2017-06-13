@@ -11,8 +11,8 @@ class IsaniBot {
       this._selectedGuild = null;
       this._updateInterval = 120 * 1000;
       this._interval = null;
-      this._html = new htmlWrapper();
-      this._css = new cssWrapper();
+      this._html = new HtmlWrapper();
+      this._css = new CssWrapper();
       this._isReady = $.Deferred();
 
       $.when(this._css.isReady(), this._html.isReady()).then(() => {
@@ -33,7 +33,7 @@ class IsaniBot {
   }
 
   isReady() {
-    return this._isReady();
+    return this._isReady;
   }
 
   destroy() {
@@ -45,7 +45,7 @@ class IsaniBot {
   }
 
   _injectCSS() {
-    BdApi.injectCSS('isaniBotUI', this._css.getCSS('isaniBotUI'));
+    BdApi.injectCSS('isaniBotUI', this._css.getContent('isaniBotUI'));
   }
 
   _getSelectedChannel() {
@@ -164,7 +164,7 @@ class IsaniBot {
   addEventRegPanel() {
     const $button = $('<button type="button" class="bot-event-reg-icon"><span></span></button>');
 
-    const $panel = $(this._html.getHTML('newEventPanel'));
+    const $panel = $(this._html.getContent('newEventPanel'));
     $panel.find('.discord-theme').addClass(this._theme);
 
     $('#app-mount').children().children().eq(5).append($panel);
