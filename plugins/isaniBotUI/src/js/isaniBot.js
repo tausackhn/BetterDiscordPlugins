@@ -230,7 +230,9 @@ class IsaniBot {
 
           //TODO check other possible channel states
           $('[class^="containerDefault-"]').find('[class^="wrapperSelectedText-"], [class^="wrapperDefaultText-"], [class^="wrapperMutedText-"]').click(() => {
-            _setIconState();
+            setTimeout(() => {
+              _setIconState();
+            }, 100)
           });
         }, 100);
       });
