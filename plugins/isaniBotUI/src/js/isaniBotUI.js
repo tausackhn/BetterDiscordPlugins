@@ -22,8 +22,10 @@ const load = () => {
 const unload = () => {};
 
 const start = () => {
-  isaniBot.addEventRegButtons();
-  isaniBot.addEventRegPanel();
+  setTimeout(() => {
+    isaniBot.addEventRegButtons();
+    isaniBot.addEventRegPanel();
+  }, 5000)
 };
 
 const stop = () => {
