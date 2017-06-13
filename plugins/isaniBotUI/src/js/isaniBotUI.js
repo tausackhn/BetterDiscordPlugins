@@ -25,7 +25,7 @@ const start = () => {
   setTimeout(() => {
     isaniBot.addEventRegButtons();
     isaniBot.addEventRegPanel();
-  }, 5000)
+  }, 1000)
 };
 
 const stop = () => {
