@@ -49,10 +49,7 @@ class IsaniBot {
   }
 
   _injectCSS() {
-    const css = new cssWrapper();
-    $.when(css.isReady()).then(() => {
-      BdApi.injectCSS('isaniBotUI', css.getCSS('isaniBotUI'));
-    })
+    BdApi.injectCSS('isaniBotUI', css.getCSS('isaniBotUI'));
   }
 
   _getSelectedChannel() {
