@@ -19,7 +19,7 @@ const get_source = function(url, callback) {
 
 request({ url: srcEndpoint, json: true }, (error, response, body) => {
   if (!error && response.statusCode === 200) {
-    sync.map(body, get_source, (error, results) => {
+    async.map(body, get_source, (error, results) => {
       if (error === null && results.length > 0) {
         const methods = results[0];
 
