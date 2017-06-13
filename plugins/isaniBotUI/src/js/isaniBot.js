@@ -2,7 +2,6 @@ class IsaniBot {
 
   constructor(id) {
     try {
-      debugger;
       this._theme = $('[class^="theme-"]').attr('class');
       this._botID = id;
       this._username = $('[class^="accountDetails-"]').find('.username').text();
@@ -20,7 +19,6 @@ class IsaniBot {
     catch(error) {
       console.log('IsaniBot UI exception - ' + error);
     }
-
   }
 
   static getEndpoints() {
@@ -30,13 +28,13 @@ class IsaniBot {
     };
   }
 
-  static destroy() {
+  destroy() {
     const $elements = $('.bot-event-reg-button, .bot-event-reg-icon, .bot-event-reg-panel, .bot-event-reg-panel');
     $elements.remove();
 
     clearInterval(this._interval);
 
-    //BdApi.clearCSS('isaniBotUI');
+    BdApi.clearCSS('isaniBotUI');
     $(document).off("click.erb");
     $(document).off("click.erp");
   }
@@ -44,9 +42,8 @@ class IsaniBot {
   _injectCSS() {
     const css = new cssWrapper();
     $.when(css.isReady()).then(() => {
-      $('<style id="isaniBotUI">' + css.getCSS('isaniBotUI') + '</style>').appendTo('head');
+      BdApi.injectCSS('isaniBotUI', css.getCSS('isaniBotUI'));
     })
-    //BdApi.injectCSS('isaniBotUI', css.getCSS('isaniBotUI'));
   }
 
   _getSelectedChannel() {
@@ -229,7 +226,6 @@ class IsaniBot {
     });
 
     $('.bot-create-event-button').click(() => {
-      debugger;
       const eventName = $(".textarea-title").val();
       const at = $(".textarea-time").val();
       const part = parseInt($(".textarea-amount").val());
