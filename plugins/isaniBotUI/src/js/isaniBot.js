@@ -15,10 +15,8 @@ class IsaniBot {
       this._css = new CssWrapper();
       this._isReady = $.Deferred();
 
-      $.when(this._css.isReady(), this._html.isReady()).then(() => {
-        this._injectCSS();
-        this._addUpdateChannels();
-      });
+      this._injectCSS();
+      this._addUpdateChannels();
     }
     catch(error) {
       console.log('IsaniBot UI exception - ' + error);
@@ -80,7 +78,9 @@ class IsaniBot {
           self._guilds = null;
         }
 
-        this._isReady.resolve();
+        $.when(this._css.isReady(), this._html.isReady()).then(() => {
+          this._isReady.resolve();
+        });
       });
     };
 
