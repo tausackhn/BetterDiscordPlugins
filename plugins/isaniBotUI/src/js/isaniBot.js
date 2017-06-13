@@ -209,14 +209,10 @@ class IsaniBot {
           event.stopImmediatePropagation();
         });
 
-        _setIconState();
-
         $('.header-toolbar').prepend($button);
       }
 
-      _createButton();
-
-      $('.scroller.guilds').find('.guild').click(() => {
+      const _guildClickLogic = () => {
         setTimeout(() => {
           if (!$('.bot-event-reg-icon').length) {
             _createButton();
@@ -235,7 +231,12 @@ class IsaniBot {
             }, 100)
           });
         }, 100);
-      });
+      };
+
+      _createButton();
+      _guildClickLogic();
+
+      $('.scroller.guilds').find('.guild').click(_guildClickLogic);
 
       $(document).on('click.erp', event => {
         const $panel = $('.bot-event-reg-panel');
