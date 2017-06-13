@@ -62,6 +62,7 @@ class IsaniBot {
       this._selectedGuild = match[1];
       if (this._selectedGuild in this._guilds) {
         //TODO find the way to handle channels with the same name
+        console.log(this._getSelectedChannel())
         if (this._getSelectedChannel().length === 1) {
           exist = true;
         }
@@ -227,6 +228,7 @@ class IsaniBot {
 
           //TODO check other possible channel states
           $('[class^="containerDefault-"]').find('[class^="wrapperSelectedText-"], [class^="wrapperDefaultText-"], [class^="wrapperMutedText-"]').click(() => {
+            console.log('channel click');
             _setIconState();
           });
         }, 100);
