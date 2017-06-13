@@ -50,7 +50,7 @@ class IsaniBot {
   }
 
   _getSelectedChannel() {
-    return $.grep(this._guilds[this._selectedGuild], channel => channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text());
+    return $.grep(this._guilds[this._selectedGuild], channel => channel.channel === $('.channels-wrap').find('[class^="wrapperSelectedText"]').text() && channel.available === true);
   }
 
   checkBotPresence() {
