@@ -173,9 +173,8 @@ class IsaniBot {
       const $button = $('<button type="button" class="bot-event-reg-icon"><span></span></button>');
 
       const $panel = $(this._html.getContent('newEventPanel'));
-      $panel.find('.bot-event-reg-panel').addClass(this._theme);
 
-      $('#app-mount').children().children().eq(5).append($panel);
+      $('#app-mount').children().append($('<div></div>').addClass(this._theme).append($panel));
 
       const _setIconState = () => {
         this._loadingTime = 500;
