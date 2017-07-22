@@ -32,20 +32,38 @@
 }
 
 .event-textarea {
-    border: none;
+    border-radius: 4px;
     padding: 4px 5px
+}
+
+.event-textarea textarea {
+    background-color: transparent;
+    resize: none;
+    outline: none;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-weight: 400;
+    font-size: 0.9375rem;
+    letter-spacing: -0.025rem;
+    width: 100%;
+    min-height: 20px;
+    margin: 2px 2px 2px 0;
+    height: 10px;
+    overflow: hidden;
 }
 
 .bot-create-event-button {
     float:right;
     z-index: 9999;
     color: #fff;
-    border: 1px solid transparent;
+    border: 1px solid #2e6da4;
     display: inline-block;
     padding: 6px 12px;
     font-size: 14px;
     font-weight: 400;
-    line-height: 1.42857;+
+    line-height: 1.42857;
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
@@ -55,7 +73,6 @@
     border-radius: 4px;
     background-image: none;
     background-color: #337ab7;
-    border-color: #2e6da4;
 }
 
 .bot-create-event-button:hover {
